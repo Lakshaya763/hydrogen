@@ -1,0 +1,4 @@
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Unix Makefiles" -S /home/lakshaya/Project-Compiler/hydrogen -B /home/lakshaya/Project-Compiler/hydrogen/cmake-build-relwithdebinfo-wsl
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/lakshaya/Project-Compiler/hydrogen/cmake-build-relwithdebinfo-wsl
