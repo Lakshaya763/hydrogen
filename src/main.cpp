@@ -1,39 +1,46 @@
-#include<iostream>
-#include<fstream>
-#include<sstream>
-#include<optional>
-#include<vector>
-#include"./generation.hpp"
-using namespace std;
+#include <fstream>
+#include <iostream>
+#include <optional>
+#include <sstream>
+#include <vector>
 
-int main(int argc,char* argv[])
+#include "generation.hpp"
+
+int main(int argc, char* argv[])
 {
-  if (argc != 2) {
-    cerr<<"Incorrect usage. Correct usage is..."<<endl;
-    cerr<<"hydro <input.hy>"<<endl;
-    return EXIT_FAILURE;
-  }
-  string contents;
-  {
-    stringstream contents_stream;
-    fstream input(argv[1],ios::in);
-    contents_stream<<input.rdbuf();
-    contents=contents_stream.str();
-  }
-  Tokenizer tokenizer(move(contents));
-  vector<Token> tokens=tokenizer.tokenize();
-  Parser parser(move(tokens));
-  optional<NodeProg> prog=parser.parse_prog();
-  if (!prog.has_value()) {
-    cerr<<"Invalid program"<<endl;
-    exit(EXIT_FAILURE);
-  }
-  {
-    Generator generator(prog.value());
-    fstream file("out.asm",std::ios::out);
-    file<<generator.gen_prog();
-  }
-  system("nasm -f elf64 out.asm -o out.o ");
-  system("ld out.o -o out");
-  return EXIT_SUCCESS;
-} 
+    if (argc != 2) {
+        std::cerr << "Incorrect usage. Correct usage is..." << std::endl;
+        std::cerr << "hydro <input.hy>" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    std::string contents;
+    {
+        std::stringstream contents_stream;
+        std::fstream input(argv[1], std::ios::in);
+        contents_stream << input.rdbuf();
+        contents = contents_stream.str();
+    }
+
+    Tokenizer tokenizer(std::move(contents));
+    std::vector<Token> tokens = tokenizer.tokenize();
+
+    Parser parser(std::move(tokens));
+    std::optional<NodeProg> prog = parser.parse_prog();
+
+    if (!prog.has_value()) {
+        std::cerr << "Invalid program" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    {
+        Generator generator(prog.value());
+        std::fstream file("out.asm", std::ios::out);
+        file << generator.gen_prog();
+    }
+
+    system("nasm -felf64 out.asm");
+    system("ld -o out out.o");
+
+    return EXIT_SUCCESS;
+}
