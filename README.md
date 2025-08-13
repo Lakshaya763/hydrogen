@@ -1,4 +1,4 @@
-# ⚙️ Hydrogen - A Minimal Toy Compiler in C++
+# ⚙️ Hydrogen - A Compiler in C++
 
 Hydrogen is a lightweight expression compiler designed to parse and evaluate a tiny programming language. Built from scratch in modern C++20, it features a custom memory allocator, lexer, parser, and basic code generation.
 
